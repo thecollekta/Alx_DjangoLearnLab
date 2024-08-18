@@ -66,6 +66,7 @@ def member_view(request):
     return render(request, 'relationship_app/member_view.html')
 
 
+from django.contrib.auth.decorators import permission_required
 # Add book view
 @permission_required('relationship_app.can_add_book')
 def add_book(request):
