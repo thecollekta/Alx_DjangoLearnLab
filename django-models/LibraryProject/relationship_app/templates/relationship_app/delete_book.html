@@ -1,0 +1,18 @@
+<!-- relationship_app/templates/relationship_app/delete_book.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Book</title>
+</head>
+<body>
+    <h1>Delete Book</h1>
+    <p>Are you sure you want to delete the book "{{ book.title }}" by {{ book.author.name }}?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, delete</button>
+        <a href="{% url 'book_detail' book_id=book.id %}">Cancel</a>
+    </form>
+</body>
+</html>

@@ -1,11 +1,11 @@
 <!-- relationship_app/templates/relationship_app/librarian_view.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Librarian View</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Librarian View{% endblock %}
+
+{% block content %}
+<div class="librarian-container">
     <h1>Welcome, Librarian!</h1>
-</body>
-</html>
+    <p>As a librarian, you have the ability to manage and oversee the library's collections and assist users. Use the tools provided to facilitate your tasks.</p>
+</div>
+{% endblock %}

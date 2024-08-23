@@ -1,10 +1,9 @@
 from django.urls import path
-from .views import admin_view, librarian_view, member_view
 from . import views
-from .views import list_books
-from django.contrib.auth.views import LoginView, LogoutView
-# from .views import CustomLogoutView
+from django.contrib.auth import views as auth_views
 from .views import register
+from .views import TemplateView
+from .views import admin_view, librarian_view, member_view
 
 
 urlpatterns = [
@@ -12,13 +11,12 @@ urlpatterns = [
     path('edit_book/<int:book_id>/', views.edit_book, name='edit_book'),
     path('delete_book/<int:book_id>/', views.delete_book, name='delete_book'),
     path('admin/', admin_view, name='admin_view'),
-    path('librarian/', librarian_view, name='librarian_view'),
-    path('member/', member_view, name='member_view'),
-    path('login/', LoginView.as_view(template_name='relationship_app/login.html'), name='login'),
-    path('logout/', LogoutView.as_view(template_name='relationship_app/logout.html'), name='logout'),
-    # path('logout/', LogoutView.as_view(template_name='relationship_app/simple_logout.html'), name='logout'),
-    # path('logout/', CustomLogoutView.as_view(template_name='relationship_app/logout.html'), name='logout'),
-    path('register/', views.register, name='register'),
+    path('librarian/', librarian_view, name='admin_view'),
+    path('member/', member_view, name='admin_view'),
     path('books/', views.list_books, name='list_books'),
-    path('library/<int:pk>/', views.LibraryDetailView.as_view(), name='library_detail'),
+    path('library/<int:pk>/', views.LibraryDetailView.as_view(template_name='relationship_app/library_detail.html'), name='library_detail'),
+    path('login/', auth_views.LoginView.as_view(template_name='relationship_app/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='relationship_app/logout.html'), name='logout'),
+    path('register/', register, name='register'),
+    path('', TemplateView.as_view(template_name="relationship_app/home.html"), name='home'),
 ]

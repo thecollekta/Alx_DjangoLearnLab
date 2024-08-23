@@ -1,0 +1,16 @@
+<!-- relationship_app/templates/relationship_app/add_book.html -->
+{% extends 'base.html' %}
+
+{% block title %}Add Book{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Add Book</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Add Book</button>
+    </form>
+    <a href="{% url 'list_books' %}" class="btn">Back to Book List</a>
+</div>
+{% endblock %}

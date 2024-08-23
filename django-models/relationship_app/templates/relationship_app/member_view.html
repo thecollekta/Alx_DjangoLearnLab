@@ -1,11 +1,11 @@
 <!-- relationship_app/templates/relationship_app/member_view.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Member View</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Member View{% endblock %}
+
+{% block content %}
+<div class="member-view-container">
     <h1>Welcome, Member!</h1>
-</body>
-</html>
+    <!-- Add more content relevant to the member view here -->
+</div>
+{% endblock %}

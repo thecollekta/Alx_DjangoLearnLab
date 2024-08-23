@@ -1,0 +1,15 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Welcome to the Library{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>Explore our vast collection of books, resources, and more. We're glad to have you as part of our library community.</p>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn">Logout</button>
+    </form>
+</div>
+{% endblock %}

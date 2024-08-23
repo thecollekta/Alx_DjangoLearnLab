@@ -1,11 +1,11 @@
 <!-- relationship_app/templates/relationship_app/admin_view.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin View</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Admin View{% endblock %}
+
+{% block content %}
+<div class="admin-container">
     <h1>Welcome, Admin!</h1>
-</body>
-</html>
+    <p>As an admin, you have access to manage all aspects of the library system. Use the navigation menu to access different admin features.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+<!-- relationship_app/templates/relationship_app/edit_book.html -->
+{% extends 'base.html' %}
+
+{% block title %}Edit Book{% endblock %}
+
+{% block content %}
+<div class="edit-book-container">
+    <h1>Edit Book</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Save Changes</button>
+    </form>
+    <a href="{% url 'edit_book' book_id=book.id %}" class="btn">Back to Book Details</a>
+</div>
+{% endblock %}

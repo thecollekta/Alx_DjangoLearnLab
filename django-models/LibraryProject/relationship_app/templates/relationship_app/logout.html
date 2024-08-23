@@ -1,16 +1,11 @@
-<!-- logout.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Logout</title>
-</head>
-<body>
-    <h1>You have been logged out</h1>
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-    <a href="{% url 'login' %}">Login again</a>
-</body>
-</html>
+<!-- templates/logout.html -->
+{% extends 'base.html' %}
+
+{% block title %}Logout - Your Library{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>You have been logged out</h2>
+    <p><a href="{% url 'login' %}">Login again</a></p>
+</div>
+{% endblock %}

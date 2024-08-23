@@ -1,17 +1,16 @@
-<!-- register.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-    <link rel="stylesheet" href="">
-</head>
-<body>
-    <h1>Register</h1>
+<!-- templates/register.html -->
+{% extends 'base.html' %}
+
+{% block title %}Register - Your Library{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Create an Account</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Register</button>
     </form>
-</body>
-</html>
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+</div>
+{% endblock %}

@@ -1,18 +1,16 @@
-<!-- login.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="">
-</head>
-<body>
-    <h1>Login</h1>
+<!-- templates/login.html -->
+{% extends 'base.html' %}
+
+{% block title %}Login - Your Library{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Login to Your Account</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Login</button>
     </form>
-    <a href="{% url 'register' %}">Register</a>
-</body>
-</html>
+    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+</div>
+{% endblock %}
