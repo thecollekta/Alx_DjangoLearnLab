@@ -20,3 +20,24 @@ This initial setup will serve as the foundation for developing Django applicatio
 2. Navigate to `http://127.0.0.1:8000/admin/`.
 3. Log in with the superuser credentials.
 4. Manage `Book` entries through the admin interface.
+
+
+### Custom Permissions and Groups
+
+This project includes custom permissions for the MyModel model, which control who can view, create, edit, and delete instances of this model.
+
+#### Permissions:
+- `can_view`: Allows viewing of model instances.
+- `can_create`: Allows creating new instances.
+- `can_edit`: Allows editing existing instances.
+- `can_delete`: Allows deletion of instances.
+
+#### Groups:
+- **Admins:** Have full permissions, including delete.
+- **Librarians:** Can create and edit instances.
+- **Members:** Can only view instances.
+
+### Testing
+- Test users have been created to verify that permissions are correctly enforced.
+- Users in the Librarians group can create and edit but cannot delete.
+- Users in the Members group can only view instances.

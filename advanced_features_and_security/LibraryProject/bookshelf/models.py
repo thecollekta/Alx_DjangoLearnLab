@@ -1,12 +1,22 @@
+# models.py
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import BaseUserManager
 
-
+# Custom Permissions in Models
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField()
+
+    class Meta:
+        permissions = [
+            ('can_view', 'Can view model instances'),
+            ('can_create', 'Can create model instances'),
+            ('can_edit', 'Can edit model instances'),
+            ('can_delete', 'Can delete model instances'),  
+        ]
 
     def __str__(self):
         return self.title
