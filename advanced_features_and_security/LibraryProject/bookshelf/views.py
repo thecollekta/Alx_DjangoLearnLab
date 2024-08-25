@@ -19,3 +19,8 @@ def edit_view(request, pk):
 
     #Logic for editing book
     return render(request, 'bookshelf/edit_book.html', {'book': book})
+
+
+def book_list(request):
+    books = Book.objects.all() # All book instances retrieval
+    return render(request, 'bookshelf/book_list.html', {'books': books})
