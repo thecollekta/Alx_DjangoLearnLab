@@ -1,0 +1,25 @@
+<!-- bookshelf/book_list.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <h1>Book List</h1>
+
+    <ul>
+        {% for book in books %}
+            <li>
+                <strong>{{ book.title }}</strong> by {{ book.author }}<br>
+                Published on: {{ book.published_date }}<br>
+                ISBN: {{ book.isbn }}
+            </li>
+        {% empty %}
+            <li>No books available at the moment.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
