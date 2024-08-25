@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 
 # Author model definition
 class Author(models.Model):
@@ -14,7 +15,6 @@ class Author(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
-    publication_year = models.IntegerField()
 
     class Meta:
         permissions = [
@@ -49,7 +49,7 @@ class UserProfile(models.Model):
         ("Librarian", "Librarian"),
         ("Member", "Member",)
     ]
-        user = models.OneToOneField(User, on_delete=models.CASCADE)
+        user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
         role = models.CharField(max_length=50, choices=ROLE_CHOICES)
         
         def __str__(self):
