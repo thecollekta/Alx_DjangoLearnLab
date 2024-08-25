@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic import UpdateView
 from django.utils.decorators import decorator_from_middleware
 from csp.middleware import CSPMiddleware
+from .forms import ExampleForm
 from .forms import BookSearchForm
 
 class BookUpdateView(PermissionRequiredMixin, UpdateView):
