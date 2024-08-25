@@ -153,6 +153,7 @@ CSRF_COOKIE_SECURE = True
 
 SESSION_COOKIE_SECURE = True
 
+# HTTPS Settings
 SECURE_SSL_REDIRECT = True # Redirect all HTTP requests to HTTPS
 
 SECURE_HSTS_SECONDS = 31536000  # 1 year
@@ -161,7 +162,7 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Apply HSTS policy to all subdomains
 
 SECURE_HSTS_PRELOAD = True # Allow inclusion in HSTS preload lists
 
-# Cookie Settings
+# Secure Cookies
 # Ensure cookies are only sent over HTTPS
 SESSION_COOKIE_SECURE = True 
 
@@ -174,3 +175,6 @@ X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 SECURE_BROWSER_XSS_FILTER = True
+
+# Handle HTTPS with reverse proxy
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
