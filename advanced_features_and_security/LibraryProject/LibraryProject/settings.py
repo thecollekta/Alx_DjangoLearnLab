@@ -137,4 +137,4 @@ LOGOUT_REDIRECT_URL = "/"
 
 # Advanced Features and Security
 
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
