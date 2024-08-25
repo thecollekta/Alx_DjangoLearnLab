@@ -46,6 +46,17 @@ def search_books(request):
             # Form invalid data
             pass
 
+def example_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Process form data
+            pass
+    else:
+        form = ExampleForm()
+
+    return render(request, 'bookshelf/form_example.html', {'form': form})
+
 # Content Security Policy (CSP) implementation
 def secure_view(request):
     response = render(request, 'bookshelf/book_list.html')

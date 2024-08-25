@@ -26,8 +26,11 @@ SECRET_KEY = 'django-insecure-fzb8wd9=@g=-yqolkx-sme4)-j@w0!@6jya#&p7dmj!+h3&o_n
 # Set DEBUG to False in production to prevent exposure of sensitive information.
 DEBUG = False
 
-ALLOWED_HOSTS = []
+# For local development
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+# For deployment, use 
+ALLOWED_HOSTS = ['collekta.com', 'www.collekta.com']
 
 # Application definition
 
@@ -40,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
-    'csp',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +152,25 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 CSRF_COOKIE_SECURE = True
 
 SESSION_COOKIE_SECURE = True
+
+SECURE_SSL_REDIRECT = True # Redirect all HTTP requests to HTTPS
+
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Apply HSTS policy to all subdomains
+
+SECURE_HSTS_PRELOAD = True # Allow inclusion in HSTS preload lists
+
+# Cookie Settings
+# Ensure cookies are only sent over HTTPS
+SESSION_COOKIE_SECURE = True 
+
+CSRF_COOKIE_SECURE = True
+
+# Secure Headers
+# Protect against clickjacking and XSS
+X_FRAME_OPTIONS = 'DENY'
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_BROWSER_XSS_FILTER = True
