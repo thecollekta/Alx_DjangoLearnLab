@@ -1,3 +1,5 @@
+# api_project/urls.py
+
 """
 URL configuration for api_project project.
 
