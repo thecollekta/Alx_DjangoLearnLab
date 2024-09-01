@@ -15,12 +15,12 @@
 
      ```python
      REST_FRAMEWORK = {
-         'DEFAULT_AUTHENTICATION_CLASSES': [
+         'DEFAULT_AUTHENTICATION_CLASSES': (
              'rest_framework.authentication.TokenAuthentication',
-         ],
-         'DEFAULT_PERMISSION_CLASSES': [
+         ),
+         'DEFAULT_PERMISSION_CLASSES': (
              'rest_framework.permissions.IsAuthenticated',
-         ],
+         ),
      }
      ```
 
@@ -55,7 +55,7 @@
 1. **Obtain Authentication Token:**
    - Use Postman or `curl` to send a POST request to the token retrieval endpoint with the user's credentials:
 
-     ```bash
+     ```zsh
      curl -X POST -d "username=user1&password=password123" http://127.0.0.1:8000/api-token-auth/
      ```
 
@@ -64,7 +64,7 @@
 2. **Accessing an API Endpoint with Authentication:**
    - With the obtained token, access an API endpoint by including it in the Authorization header:
 
-     ```bash
+     ```zsh
      curl -H "Authorization: Token <your_token>" http://127.0.0.1:8000/api/books/
      ```
 
@@ -73,7 +73,7 @@
 3. **Testing Without Authentication:**
    - Try accessing the same endpoint without the token to see how the API rejects unauthorized requests:
 
-     ```bash
+     ```zsh
      curl http://127.0.0.1:8000/api/books/
      ```
 
