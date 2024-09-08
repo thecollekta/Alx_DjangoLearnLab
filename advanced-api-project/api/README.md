@@ -11,7 +11,8 @@
 
 ### Retrieve, Update, and Delete Book
 
-- URL: `/api/books/<int:pk>/`
+- URL: `/api/books/update/`
+- URL: `/api/books/delete/`
 - Methods:
   - GET: Retrieve a specific book (no authentication required)
   - PUT/PATCH: Update a specific book (authentication required)
