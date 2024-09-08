@@ -6,15 +6,23 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from .models import Book, Author
 from django.urls import reverse
+from django.contrib.auth import get_user_model
+from rest_framework.test import APITestCase
+
+User = get_user_model()
 
 class BookAPITestCase(TestCase):
     def setUp(self):
+        # Create a test user
         self.client = APIClient()
         self.user = User.objects.create_user(username='testuser', password='testpass')
         self.author = Author.objects.create(name='Test Author')
         self.book = Book.objects.create(title='Test Book', publication_year=2023, author=self.author)
         self.book_url = reverse('book-detail', kwargs={'pk': self.book.pk})
         self.book_list_url = reverse('book-list')
+
+        # Log in the test client
+        self.client.login(username='testuser', password='testpass123')
 
 # CRUD Operations Tests
     def test_get_book_list(self):
