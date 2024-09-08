@@ -29,18 +29,18 @@
 
 curl `http://localhost:8000/api/books/`
 
-### Create a new book (requires authentication)
+### Create a new book
 
-curl -X POST `http://localhost:8000/api/books/` -H "Authorization: Token YOUR_AUTH_TOKEN" -H "Content-Type: application/json" -d '{"title":"New Book", "publication_year":2023, "author":1}'
+curl -X POST `http://localhost:8000/api/books/create/` -H "Authorization: Token YOUR_AUTH_TOKEN" -H "Content-Type: application/json" -d '{"title":"Boo", "publication_year":2024, "author":1}'
 
-### Retrieve a specific book (no authentication required)
+### Retrieve a specific book
 
 curl `http://localhost:8000/api/books/1/`
 
-### Update a book (requires authentication)
+### Update a book
 
-curl -X PUT `http://localhost:8000/api/books/1/` -H "Authorization: Token YOUR_AUTH_TOKEN" -H "Content-Type: application/json" -d '{"title":"Updated Book", "publication_year":2023, "author":1}'
+curl -X PUT `http://localhost:8000/api/books/1/update/` -H "Authorization: Token YOUR_AUTH_TOKEN" -H "Content-Type: application/json" -d '{"title":"Updated Book", "publication_year":2024, "author":1}'
 
-### Delete a book (requires authentication)
+### Delete a book
 
-curl -X DELETE `http://localhost:8000/api/books/1/` -H "Authorization: Token YOUR_AUTH_TOKEN"
+curl -X DELETE `http://localhost:8000/api/books/1/delete/` -H "Authorization: Token YOUR_AUTH_TOKEN"
