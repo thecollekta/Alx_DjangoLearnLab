@@ -32,7 +32,7 @@ curl `http://localhost:8000/api/books/`
 
 ### Create a new book
 
-curl -X POST `http://localhost:8000/api/books/create/` -H "Authorization: Token YOUR_AUTH_TOKEN" -H "Content-Type: application/json" -d '{"title":"Boo", "publication_year":2024, "author":1}'
+curl -X POST `http://localhost:8000/api/books/create/` -H "Authorization: Token YOUR_AUTH_TOKEN" -H "Content-Type: application/json" -d '{"title":"Book Title", "publication_year":2024, "author":1}'
 
 ### Retrieve a specific book
 
@@ -40,8 +40,34 @@ curl `http://localhost:8000/api/books/1/`
 
 ### Update a book
 
-curl -X PUT `http://localhost:8000/api/books/1/update/` -H "Authorization: Token YOUR_AUTH_TOKEN" -H "Content-Type: application/json" -d '{"title":"Updated Book", "publication_year":2024, "author":1}'
+curl -X PUT `http://localhost:8000/api/books/update/` -H "Authorization: Token YOUR_AUTH_TOKEN" -H "Content-Type: application/json" -d '{"title":"Updated Book", "publication_year":2024, "author":1}'
 
 ### Delete a book
 
-curl -X DELETE `http://localhost:8000/api/books/1/delete/` -H "Authorization: Token YOUR_AUTH_TOKEN"
+curl -X DELETE `http://localhost:8000/api/books/delete/` -H "Authorization: Token YOUR_AUTH_TOKEN"
+
+## API Usage
+
+### Book List Endpoint
+
+The `/api/books/` endpoint supports filtering, searching, and ordering.
+
+### Filtering
+
+You can filter books by title, author, and publication year:
+`/api/books/?title=Django&author=Festus&publication_year=2024`
+
+### Searching
+
+You can search books by title and author:
+`/api/books/?search=Book+of+Rhymes`
+
+### Ordering
+
+You can order books by title, publication year, and author:
+`/api/books/?ordering=-publication_year`
+
+Use a minus sign (-) for descending order.
+
+These features can be combined:
+`/api/books/?search=Book+of+Rhymes&ordering=-publication_year&author__name=Festus`
