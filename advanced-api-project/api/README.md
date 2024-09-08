@@ -71,3 +71,30 @@ Use a minus sign (-) for descending order.
 
 These features can be combined:
 `/api/books/?search=Book+of+Rhymes&ordering=-publication_year&author__name=Festus`
+
+## API Testing Strategy
+
+### Test Cases
+
+1. Retrieve book list
+2. Retrieve book detail
+3. Create new book (authenticated)
+4. Update existing book (authenticated)
+5. Delete book (authenticated)
+6. Filter books
+7. Search books
+8. Order books
+9. Verify authentication requirements
+
+### Running Tests
+
+To run the test suite:
+
+1. Ensure you're in the project directory
+2. Run: `python manage.py test api`
+
+### Interpreting Results
+
+- All tests should pass (OK)
+- Any failures will be displayed with details about the failed assertion
+- Check the output for any errors or failures and address them accordingly
