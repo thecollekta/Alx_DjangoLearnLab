@@ -1,7 +1,7 @@
 # blog/views.py
 
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, UserProfileForm
 
