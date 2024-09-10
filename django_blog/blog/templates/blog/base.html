@@ -1,4 +1,4 @@
-# blog/templates/blog/base.html
+<!-- blog/templates/blog/base.html-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +11,18 @@
 <body>
     <header>
         <h1>Django Blog</h1>
+        <nav>
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}">Profile</a>
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </nav>
     </header>
     <main>
         {% block content %}
