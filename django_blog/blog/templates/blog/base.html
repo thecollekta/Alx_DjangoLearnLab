@@ -6,24 +6,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Django Blog{% endblock %}</title> 
+    <title>{% block title %}Django Blog{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <header>
         <nav>
             <ul>
-
-
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'posts' %}">Blog Posts</a></li>
+                
                 {% if user.is_authenticated %}
-                    <li>
-                        <form id="logout-form" action="{% url 'logout' %}" method="POST" style="display: none;">
-                            {% csrf_token %}
-                        </form>
-                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
-                    </li>
+                    <li><a href="#" id="logout-link">Logout</a></li>
                     <li><a href="{% url 'profile' %}">Profile</a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>
@@ -42,6 +36,23 @@
     <footer>
         <p>&copy; 2024 Django Blog</p>
     </footer>
+
+    <!-- JavaScript to handle the logout link -->
+    <script>
+        document.getElementById('logout-link')?.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            fetch("{% url 'logout' %}", {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}', // Add the CSRF token
+                }
+            }).then(response => {
+                if (response.ok) {
+                    window.location.href = "{% url 'home' %}"; // Redirect to home after logout
+                }
+            });
+        });
+    </script>
 
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>

@@ -1,0 +1,7 @@
+<!-- blog/templates/blog/home.html -->
+<h1>Welcome to the Django Blog</h1>
+<ul>
+    {% for post in posts %}
+        <li><a href="{% url 'post-detail' post.pk %}">{{ post.title }}</a></li>
+    {% endfor %}
+</ul>

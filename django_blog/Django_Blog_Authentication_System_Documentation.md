@@ -26,7 +26,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('profile')
+            return redirect('home')
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
@@ -77,7 +77,7 @@ The login template (`templates/registration/login.html`) extends the base templa
 In `django_blog/settings.py`:
 
 ```python
-LOGIN_REDIRECT_URL = 'profile'
+LOGIN_REDIRECT_URL = 'home'
 ```
 
 ### 3. User Logout
@@ -133,10 +133,10 @@ def profile(request):
         form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect('home')
     else:
         form = UserProfileForm(instance=request.user)
-    return render(request, 'registration/profile.html', {'form': form})
+    return render(request, 'registration/register.html', {'form': form})
 ```
 
 #### Form
