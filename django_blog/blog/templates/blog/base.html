@@ -1,36 +1,36 @@
 <!-- blog/templates/blog/base.html-->
-{% load static %} 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Django Blog{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Django Blog</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
+        <h1>Django Blog</h1>
         <nav>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'posts' %}">Blog Posts</a></li>
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-            </ul>
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}">Profile</a>
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
         </nav>
     </header>
-
-    <div class="content">
+    <main>
         {% block content %}
-        <!-- Page-specific content goes here -->
         {% endblock %}
-    </div>
-
+    </main>
     <footer>
         <p>&copy; 2024 Django Blog</p>
     </footer>
-
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
