@@ -3,6 +3,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django import forms
+from .models import Post
+
 
 # User Registration Form
 class CustomUserCreationForm(UserCreationForm):
@@ -19,8 +22,14 @@ class CustomUserCreationForm(UserCreationForm):
             user.save()
         return user
 
-# # User Profile Form
+# User Profile Form
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+
+# PostForms
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content']

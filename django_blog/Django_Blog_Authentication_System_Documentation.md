@@ -65,7 +65,7 @@ We use Django's built-in `LoginView` for handling user login.
 In `blog/urls.py`:
 
 ```python
-path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
+path('login/', auth_views.LoginView.as_view(), name='login'),
 ```
 
 #### Template
@@ -89,7 +89,7 @@ We use Django's built-in `LogoutView` for handling user logout.
 In `blog/urls.py`:
 
 ```python
-path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ```
 
 #### Template
@@ -123,6 +123,7 @@ LOGOUT_REDIRECT_URL = 'login'
 ### 4. Profile Management
 
 #### View
+
 Profile management is handled by a custom view in `blog/views.py`:
 
 ```python
@@ -139,6 +140,7 @@ def profile(request):
 ```
 
 #### Form
+
 We use a custom form for profile management:
 
 ```python
@@ -149,6 +151,7 @@ class UserProfileForm(forms.ModelForm):
 ```
 
 #### Template
+
 The profile template (`templates/registration/profile.html`) extends the base template and includes the profile management form.
 
 ## URL Configuration
@@ -161,30 +164,31 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('accounts/register/', views.register, name='register'),
-    path('accounts/profile/', views.profile, name='profile'),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('register/', views.register, name='register'),
+    path('profile/', views.profile, name='profile'),
 ]
 ```
 
 ## Testing the Authentication System
 
 1. Registration:
+
    - Navigate to `/accounts/register/`
    - Fill out the form with a new username, email, and password
    - Submit the form and verify that you're redirected to the profile page
-
 2. Login:
+
    - Navigate to `/accounts/login/`
    - Enter your username and password
    - Verify that you're redirected to the profile page after successful login
-
 3. Logout:
+
    - Click the "Logout" button in the navigation menu
    - Verify that you're logged out and redirected to the login page
-
 4. Profile Management:
+
    - Log in and navigate to `/accounts/profile/`
    - Update your username or email
    - Submit the form and verify that your changes are saved
