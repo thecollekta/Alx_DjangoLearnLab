@@ -1,4 +1,4 @@
-# blog/static/js/script.js
+// blog/static/js/script.js
 document.addEventListener('DOMContentLoaded', function() {
     // Add a click event listener to all post titles
     const postTitles = document.querySelectorAll('.post h2');
