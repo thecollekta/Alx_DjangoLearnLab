@@ -97,13 +97,23 @@ path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
 The logout link is included in the base template (`templates/blog/base.html`) as a form to ensure it sends a POST request:
 
 ```html
-<form method="post" action="{% url 'logout' %}" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit">Logout</button>
-</form>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li>
+                        <form id="logout-form" action="{% url 'logout' %}" method="POST" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
 ```
 
 #### Settings
+
 In `django_blog/settings.py`:
 
 ```python
