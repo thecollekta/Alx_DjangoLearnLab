@@ -9,9 +9,12 @@ from .views import (PostListView, PostDetailView, PostCreateView,
 
 urlpatterns = [
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
-    path('post/<int:post_id>/comments/new/', CommentCreateView.as_view(), name='add-comment'),
-    path('comment/<int:comment_id>/edit/', CommentUpdateView.as_view(), name='edit-comment'),
-    path('comment/<int:comment_id>/delete/', CommentDeleteView.as_view(), name='delete-comment'),
+    # URL for adding a new comment to a post
+    path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), name='add-comment'),
+    # URL for updating a comment
+    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='update-comment'),
+    # URL for deleting a comment
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='delete-comment'),
     path('', PostListView.as_view(), name='home'),
     path('posts/', PostListView.as_view(), name='posts'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),

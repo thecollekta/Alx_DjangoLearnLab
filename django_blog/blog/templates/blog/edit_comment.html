@@ -2,7 +2,7 @@
 
 {% if user.is_authenticated %}
     <h4>Edit your comment:</h4>
-    <form method="POST" action="{% url 'edit-comment' post.id comment.id %}">
+    <form method="POST" action="{% url 'update-comment' comment.id %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Update Comment</button>

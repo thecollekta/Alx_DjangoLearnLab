@@ -94,28 +94,27 @@ class CommentCreateView(CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'blog/add_comment.html'
-
+    
     def form_valid(self, form):
         form.instance.author = self.request.user
-        form.instance.post_id = self.kwargs['post_id']
+        form.instance.post_id = self.kwargs['pk']  # Link comment to the post
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('post-detail', kwargs={'pk': self.kwargs['post_id']})
+        return reverse_lazy('post-detail', kwargs={'pk': self.kwargs['pk']})
 
 # Edit a Comment
 class CommentUpdateView(UpdateView):
     model = Comment
     form_class = CommentForm
-    template_name = 'blog/edit_comment.html'
-
+    template_name = 'blog/update_comment.html'
+    
     def get_queryset(self):
-        """Ensure that only the author can edit the comment."""
-        queryset = super().get_queryset()
-        return queryset.filter(author=self.request.user)
+        # Ensure only the author of the comment can update it
+        return Comment.objects.filter(author=self.request.user)
 
     def get_success_url(self):
-        return reverse_lazy('post-detail', kwargs={'pk': self.object.post.id})
+        return reverse_lazy('post-detail', kwargs={'pk': self.object.post.pk})
 
 # Delete a Comment
 class CommentDeleteView(DeleteView):
