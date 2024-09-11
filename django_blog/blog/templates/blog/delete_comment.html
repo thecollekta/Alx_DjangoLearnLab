@@ -9,7 +9,7 @@
         <button type="submit">Yes, delete comment</button>
     </form>
     
-    <a href="{% url 'post-detail' post.id %}">Cancel</a>
+    <a href="{% url 'post-detail' comment.id %}">Cancel</a>
 {% else %}
     <p>You must be logged in to delete comments.</p>
 {% endif %}
