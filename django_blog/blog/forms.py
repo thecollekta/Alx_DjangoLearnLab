@@ -32,7 +32,7 @@ class UserProfileForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content'] # Fields for post creation and update
+        fields = ['title', 'content', 'tags'] # Fields for post creation and update
 
 # CommentForms
 class CommentForm(forms.ModelForm):

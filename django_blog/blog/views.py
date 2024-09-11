@@ -3,11 +3,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, UserProfileForm, PostForm, CommentForm
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from .forms import (CustomUserCreationForm, UserProfileForm, 
+                    PostForm, CommentForm)
+from django.views.generic import (ListView, DetailView, 
+                                  CreateView, UpdateView, DeleteView)
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Post, Comment
+from django.db.models import Q
+from taggit.models import Tag
 
 # User Registration View
 def register(request):
@@ -41,6 +45,14 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-published_date'] # Order posts by date published
     paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        tag_slug = self.kwargs.get('tag_slug')
+        if tag_slug:
+            tag = get_object_or_404(Tag, slug=tag_slug)
+            queryset = queryset.filter(tags__in=[tag])
+        return queryset
 
 # View details of a specific post
 class PostDetailView(DetailView):
@@ -128,3 +140,13 @@ class CommentDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('post-detail', kwargs={'pk': self.object.post.id})
+    
+# Search View
+def search(request):
+    query = request.GET.get('q')
+    results = Post.objects.filter(
+        Q(title__icontains=query) | Q(content__icontains=query) | 
+        Q(tags__name__icontains=query)
+    ).distinct()
+    return render(request, 'blog/search_results.html', 
+                  {'results': results, 'query': query})
