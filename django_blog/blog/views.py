@@ -1,7 +1,9 @@
 # blog/views.py
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from .forms import (CustomUserCreationForm, UserProfileForm, 
                     PostForm, CommentForm)
@@ -23,7 +25,7 @@ def register(request):
             return redirect('profile')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'blog/register.html', {'form': form})
 
 # Profile View
 @login_required
@@ -35,7 +37,20 @@ def profile(request):
             return redirect('profile')
     else:
         form = UserProfileForm(instance=request.user)
-    return render(request, 'registration/profile.html', {'form': form})
+    return render(request, 'blog/profile.html', {'form': form})
+
+# User Login
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')  # Redirect to 'home'after success
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'blog/login.html', {'form': form})
 
 # Class-based views for list, detail, create, update, and delete operations
 # List all blog posts
