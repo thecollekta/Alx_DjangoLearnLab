@@ -14,8 +14,8 @@ urlpatterns = [
     path('', PostListView.as_view(), name='home'), # General post list view
     path('posts/', PostListView.as_view(), name='posts'), # All posts
     # URL pattern for filtering posts by tag
-    path('tags/<slug:tag_slug>/', views.PostListView.as_view(), 
-         name='posts-by-tag'), # Posts filtered by tag
+    path('tags/<slug:tag_slug>/', views.PostByTagListView.as_view(), 
+         name='posts-by-tag'),  # Posts filtered by tag
     
     # Post detail view and CRUD operations for posts
     path('post/new/', PostCreateView.as_view(), name='post-create'),

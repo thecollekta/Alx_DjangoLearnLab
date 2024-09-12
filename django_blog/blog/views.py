@@ -69,10 +69,15 @@ class PostListView(ListView):
             queryset = queryset.filter(tags__in=[tag])
         return queryset
     
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['tag'] = get_object_or_404(Tag, slug=self.kwargs.get('tag_slug'))
-    #     return context
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+    paginate_by = 5
+
+    def get_queryset(self):
+        # Return all posts, no filtering by tags here
+        return Post.objects.all().order_by('-published_date')
 
 # View details of a specific post
 class PostDetailView(DetailView):
