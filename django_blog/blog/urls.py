@@ -11,8 +11,11 @@ from .views import (PostListView, PostDetailView, PostCreateView,
 
 urlpatterns = [
     # Homepage (post list view)
-    path('', PostListView.as_view(), name='home'),
-    path('posts/', PostListView.as_view(), name='posts'),
+    path('', PostListView.as_view(), name='home'), # General post list view
+    path('posts/', PostListView.as_view(), name='posts'), # All posts
+    # URL pattern for filtering posts by tag
+    path('tags/<slug:tag_slug>/', views.PostListView.as_view(), 
+         name='posts-by-tag'), # Posts filtered by tag
     
     # Post detail view and CRUD operations for posts
     path('post/new/', PostCreateView.as_view(), name='post-create'),
@@ -21,9 +24,12 @@ urlpatterns = [
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 
     # Comment CRUD operations
-    path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), name='add-comment'),
-    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='update-comment'),
-    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='delete-comment'),
+    path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), 
+         name='add-comment'),
+    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), 
+         name='update-comment'),
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), 
+         name='delete-comment'),
 
     # User authentication
     path('login/', user_login, name='login'),

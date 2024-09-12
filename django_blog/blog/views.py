@@ -1,7 +1,7 @@
 # blog/views.py
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
@@ -68,6 +68,11 @@ class PostListView(ListView):
             tag = get_object_or_404(Tag, slug=tag_slug)
             queryset = queryset.filter(tags__in=[tag])
         return queryset
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['tag'] = get_object_or_404(Tag, slug=self.kwargs.get('tag_slug'))
+    #     return context
 
 # View details of a specific post
 class PostDetailView(DetailView):
