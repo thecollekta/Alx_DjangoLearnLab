@@ -27,7 +27,7 @@
 {% endif %}
 
 <!-- Search bar for refining the search -->
-<form method="GET" action="{% url 'search' %}">
+<form method="GET" action="{% url 'search-posts' %}">
     <input type="text" name="query" value="{{ query }}" placeholder="Search again...">
     <button type="submit">Search</button>
 </form>

@@ -14,8 +14,7 @@
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'posts' %}">Blog Posts</a></li>
-                
+                <li><a href="{% url 'posts' %}">Blog Posts</a>      
                 {% if user.is_authenticated %}
                     <li><a href="#" id="logout-link">Logout</a></li>
                     <li><a href="{% url 'profile' %}">Profile</a></li>
@@ -29,7 +28,7 @@
 
     <div class="content">
         {% block content %}
-        <!-- Page-specific content goes here -->
+        Page-specific content goes here
         {% endblock %}
     </div>
 

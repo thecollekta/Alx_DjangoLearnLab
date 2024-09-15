@@ -16,10 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from blog import views as user_login
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # User authentication
+    path('register/', user_login.register, name='register'),
+    path('profile/', user_login.profile, name='profile'),
+    path('login/', auth_views.LoginView.as_view(template_name='blog/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='blog/logout.html'), name='logout'),
     path('', include("blog.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

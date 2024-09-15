@@ -7,14 +7,14 @@ from django import forms
 from .models import Post, Comment
 from taggit.forms import TagWidget
 
-
+# User Authentication Setup
 # User Registration Form
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2")
+        fields = ("username", "email", "password1", "password2",)
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -27,13 +27,14 @@ class CustomUserCreationForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email',]
 
 # PostForms
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content', 'tags'] # Fields for post creation and update
+        fields = ['title', 'content', 'tags'] # Fields for post 
+                                              # creation and update
         widgets = {
             'tags': TagWidget(), 
         } # TagWidget for tags field

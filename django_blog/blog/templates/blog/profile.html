@@ -1,11 +1,14 @@
 <!-- templates/registration/profile.html-->
 {% extends 'blog/base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>User Profile</h2>
+<h2>{{ user.username }}'s Profile</h2>
+<br>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+    <br>
     <button type="submit">Update Profile</button>
 </form>
 {% endblock %}

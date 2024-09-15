@@ -2,31 +2,32 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from .forms import (CustomUserCreationForm, UserProfileForm, 
                     PostForm, CommentForm)
+from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import (ListView, DetailView, 
                                   CreateView, UpdateView, DeleteView)
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Post, Comment
-from django.db.models import Q
 from taggit.models import Tag
+from django.db.models import Q
 
 # User Registration View
 def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('profile')
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('login')
     else:
         form = CustomUserCreationForm()
     return render(request, 'blog/register.html', {'form': form})
-
+    
 # Profile View
 @login_required
 def profile(request):
@@ -37,6 +38,7 @@ def profile(request):
             return redirect('profile')
     else:
         form = UserProfileForm(instance=request.user)
+        
     return render(request, 'blog/profile.html', {'form': form})
 
 # User Login
@@ -52,11 +54,15 @@ def user_login(request):
 
     return render(request, 'blog/login.html', {'form': form})
 
+# Homepage
+def homepage(request):
+    return render(request, 'blog/home.html')
+
 # Class-based views for list, detail, create, update, and delete operations
 # List all blog posts
 class PostListView(ListView):
     model = Post
-    template_name = 'blog/home_list.html'
+    template_name = 'blog/post_list.html'
     context_object_name = 'posts'
     ordering = ['-published_date'] # Order posts by date published
     paginate_by = 5
@@ -73,7 +79,6 @@ class PostByTagListView(ListView):
     model = Post
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
-    paginate_by = 5
 
     def get_queryset(self):
         # Return all posts, no filtering by tags here
@@ -83,6 +88,7 @@ class PostByTagListView(ListView):
 class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
+    context_object_name = 'post'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -167,11 +173,14 @@ class CommentDeleteView(DeleteView):
         return reverse_lazy('post-detail', kwargs={'pk': self.object.post.id})
     
 # Search View
-def search(request):
+def search_posts(request):
     query = request.GET.get('q')
-    results = Post.objects.filter(
-        Q(title__icontains=query) | Q(content__icontains=query) | 
-        Q(tags__name__icontains=query)
-    ).distinct()
-    return render(request, 'blog/search_results.html', 
-                  {'results': results, 'query': query})
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    else:
+        posts = Post.objects.all()
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
