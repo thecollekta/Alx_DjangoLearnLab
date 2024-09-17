@@ -21,11 +21,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        user = get_user_model.objects.create_user(**validated_data)
-        password = serializers.CharField(write_only=True)
-        user.set_password(password)  # For password hashing
-        user.save()
-        Token.objects.create(user=user)
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+            bio=validated_data.get('bio', ''),
+            profile_picture=validated_data.get('profile_picture', None)
+        )
         return user
     
 class LoginSerializer(serializers.Serializer):
