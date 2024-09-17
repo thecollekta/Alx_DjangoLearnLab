@@ -12,6 +12,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'bio', 'profile_picture', 'followers']
 
 class RegisterSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
     class Meta:
         model = User
         fields = ['username', 'password', 'bio', 'profile_picture']
@@ -21,5 +22,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
+        password = serializers.CharField(write_only=True)
+        user.set_password(password)  # For password hashing
+        user.save()
         Token.objects.create(user=user)
         return user
+    
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
