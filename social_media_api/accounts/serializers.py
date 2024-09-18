@@ -21,13 +21,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         }
 
     def create(self, validated_data):
-        user = get_user_model().objects.create_user(**validated_data)
         password = validated_data.pop('password')
-        user.set_password(password)  # For password hashing
+        user = get_user_model().objects.create_user(**validated_data)
+        user.set_password(password)
         user.save()
         Token.objects.create(user=user)
         return user
-    
-class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
