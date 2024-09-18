@@ -9,6 +9,7 @@ This project is a simple social media API built using Django and Django REST Fra
 3. [Registering a User](#registering-a-user)
 4. [Authenticating a User](#authenticating-a-user)
 5. [Testing the API](#testing-the-api)
+6. [Implementing Posts and Comments Functionality](#implementing-posts-and-comments-functionality)
 
 ## Project Setup
 
@@ -74,7 +75,7 @@ class CustomUser(AbstractUser):
     bio = models.TextField(blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     followers = models.ManyToManyField('self', symmetrical=False, related_name='following')
-    
+  
     def __str__(self):
         return self.username
 ```
@@ -126,7 +127,7 @@ To retrieve an authentication token for a user, send a `POST` request to the `ht
 ```json
 {
   "username": "newuser",
-  "password": "newpassword",
+  "password": "newpassword"
 }
 ```
 
@@ -166,6 +167,309 @@ curl -X POST http://127.0.0.1:8000/api/accounts/login/ \
 ```
 
 Make sure to replace `newtuser` and `newpassword` with the actual user credentials during testing.
+
+## 6. Implementing Posts and Comments Functionality
+
+**Overview**
+Users to manage posts and engage with them through comments in a social media platform by creating, viewing, updating, and deleting posts and comments. The API provides endpoints for managing these operations, with user authentication and permissions.
+
+## Endpoints
+
+### Posts
+
+1. **Create a New Post**
+
+- **URL:** `http://127.0.0.1:8000/posts/posts/`
+- **Method**: `POST`
+- **Authentication Required:** Yes
+- **Description:** Allows authenticated users to create a new post.
+
+**Request Body:**
+
+```json
+{
+  "title": "First Post",
+  "content": "What a journey to this point."
+}
+```
+
+**Response:**
+
+```json
+{
+  "id": 1,
+  "author": "festus",
+  "title": "First Post",
+  "content": "What a journey to this point.",
+  "created_at": "2024-09-18T13:54:29.468935Z",
+  "updated_at": "2024-09-18T13:54:29.468935Z"
+}
+```
+
+2. **Retrieve a List of Post**
+
+- **URL:** `http://127.0.0.1:8000/posts/posts/`
+- **Method**: `GET`
+- **Authentication Required:** No
+- **Description:** Retrieve a list of all posts with pagination.
+
+**Request Body:**
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+      {
+        "id": 1,
+        "author": "festus",
+        "title": "First Post",
+        "content": "What a journey to this point.",
+        "created_at": "2024-09-18T13:54:29.468935Z",
+        "updated_at": "2024-09-18T13:54:29.468935Z"
+      }
+  ]
+}
+```
+
+3. **Retrieve a Single Post**
+
+- **URL:** `http://127.0.0.1:8000/posts/posts/1/`
+- **Method**: `GET`
+- **Authentication Required:** No
+- **Description:** Retrieve a specific post by its ID..
+
+**Request Body:**
+
+```json
+{
+  "id": 1,
+  "author": "festus",
+  "title": "First Post",
+  "content": "What a journey to this point.",
+  "created_at": "2024-09-18T13:54:29.468935Z",
+  "updated_at": "2024-09-18T13:54:29.468935Z"
+}
+```
+
+4. **Update a Post**
+
+- **URL:** `http://127.0.0.1:8000/posts/posts/1/`
+- **Method**: `PUT`
+- **Authentication Required:** Yes
+- **Description:** Allows the post's author to update the post.
+
+**Request Body:**
+
+```json
+{
+  "title": "First Post",
+  "content": "What a journey to this point."
+}
+```
+
+**Response:**
+
+```json
+{
+  "id": 1,
+  "author": "festus",
+  "title": "First Post Updated",
+  "content": "What a journey to this point and beyond.",
+  "created_at": "2024-09-18T13:54:29.468935Z",
+  "updated_at": "2024-09-18T15:23:46.945840Z"
+}
+```
+
+5. **Delete a Post**
+
+- **URL:** `http://127.0.0.1:8000/posts/posts/1/`
+- **Method**: `DELETE`
+- **Authentication Required:** Yes
+- **Description:** Allows the post's author to delete the post.
+
+**Response:**
+
+```json
+{
+  "detail": "Post deleted successfully."
+}
+```
+
+### Comments
+
+1. **Create a New Comment**
+
+- **URL:** `http://127.0.0.1:8000/posts/comments/`
+- **Method**: `POST`
+- **Authentication Required:** Yes
+- **Description:** Allows authenticated users to add a comment to a post.
+
+**Request Body:**
+
+```json
+{
+  "post": 1,
+  "content": "Congrats on making it this far.",
+}
+
+```
+
+**Response:**
+
+```json
+{
+  "id": 1,
+  "post": 1,
+  "author": "Collekta",
+  "content": "Congrats on making it this far.",
+  "created_at": "2024-09-18T13:57:20.482694Z",
+  "updated_at": "2024-09-18T13:57:20.482694Z"
+}
+```
+
+2. **Retrieve a List of Comments**
+
+- **URL:** `http://127.0.0.1:8000/posts/comments/`
+- **Method**: `GET`
+- **Authentication Required:** No
+- **Description:** Retrieve a list of all comments with pagination.
+
+**Request Body:**
+
+```json
+{
+  "count": 1,
+  "next": null,
+  "previous": null,
+  "results": [
+      {
+          "id": 1,
+          "post": 1,
+          "author": "Collekta",
+          "content": "Congrats on making it this far.",
+          "created_at": "2024-09-18T13:57:20.482694Z",
+          "updated_at": "2024-09-18T13:57:20.482694Z"
+      }
+  ]
+}
+```
+
+3. **Retrieve a Single Comment**
+
+- **URL:** `http://127.0.0.1:8000/posts/comments/1/`
+- **Method**: `GET`
+- **Authentication Required:** No
+- **Description:** Retrieve a specific post by its ID..
+
+**Request Body:**
+
+```json
+{
+  "id": 1,
+  "post": 1,
+  "author": "Collekta",
+  "content": "Congrats on making it this far.",
+  "created_at": "2024-09-18T13:57:20.482694Z",
+  "updated_at": "2024-09-18T13:57:20.482694Z"
+}
+```
+
+4. **Update a Comment**
+
+- **URL:** `http://127.0.0.1:8000/posts/comments/1/`
+- **Method**: `PUT`
+- **Authentication Required:** Yes
+- **Description:** Allows the comment's author to update the comment.
+
+**Request Body:**
+
+```json
+{
+    "id": 1,
+    "post": 1,
+    "author": "Collekta",
+    "content": "What a journey to this point and beyond. Slow but sure progress.",
+    "created_at": "2024-09-18T13:57:20.482694Z",
+    "updated_at": "2024-09-18T15:51:53.368962Z"
+}
+```
+
+**Response:**
+
+```json
+{
+    "id": 1,
+    "author": "festus",
+    "title": "First Post Updated",
+    "content": "What a journey to this point and beyond.",
+    "created_at": "2024-09-18T13:54:29.468935Z",
+    "updated_at": "2024-09-18T15:23:46.945840Z"
+}
+```
+
+5. **Delete a Comment**
+
+- **URL:** `http://127.0.0.1:8000/posts/posts/1/`
+- **Method**: `DELETE`
+- **Authentication Required:** Yes
+- **Description:** Allows the comment's author to delete the comment.
+
+**Response:**
+
+```json
+{
+  "detail": "Comment deleted successfully."
+}
+```
+
+## Filtering and Searching
+
+### Filtering Posts
+
+- You can filter posts by title using the query parameter `title`.
+
+**Example Request:**
+
+```perl
+GET /posts/posts/?title=First%20Post #If deleted, use the one below.
+GET /posts/posts/?title=First%20Post%20Updated
+```
+
+### Searching Posts
+
+- You can search posts by `title` or `content` using the search query parameter.
+
+**Example Request:**
+
+```sql
+GET /posts/posts/?search=content
+```
+
+### Pagination
+
+- All list endpoints support pagination. The default page size is 5.
+
+**Example Request:**
+
+```bash
+GET /posts/posts/?page=2
+```
+
+### Authentication
+
+- The API requires authentication for creating, updating, and deleting posts and comments. Use Token Authentication to access these features. Ensure the development server is running and visit `http://127.0.0.1:8000/admin/authtoken/tokenproxy/`. **Note** A superuser account must be created before visiting the URL.
+
+### Permissions
+
+- Only the author of a post or comment can update or delete it.
+- Anyone can view posts and comments.
+
+### Testing
+
+- All endpoints have been thoroughly tested using Postman.
+- Example requests and responses are provided in this documentation to demonstrate the API’s functionality.
 
 ### Conclusion
 

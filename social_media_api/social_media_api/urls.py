@@ -1,3 +1,5 @@
+# social_media_api/urls.py
+
 """
 URL configuration for social_media_api project.
 
@@ -22,6 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls')),
+    path('posts/', include('posts.urls')),
 ]
 
 if settings.DEBUG:

@@ -1,3 +1,5 @@
+# social_media_api/accounts/views.py
+
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
@@ -38,7 +40,7 @@ class LoginView(APIView):
             password = serializer.validated_data['password']
             user = authenticate(username=username, password=password)
             if user is not None:
-                token, created = Token.objects.get_or_create(user=user)
+                token, _ = Token.objects.get_or_create(user=user)
                 return Response({
                     'token': token.key
                 }, status=status.HTTP_200_OK)
