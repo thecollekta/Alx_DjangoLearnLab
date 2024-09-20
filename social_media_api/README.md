@@ -210,6 +210,20 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ### Posts
 
+### Authentication
+
+- The API requires authentication for creating, updating, and deleting posts and comments. Create a **user account using the Django Admin portal or python manage.py drf_create_token `<username>`** to generate token to access these features.
+
+### Permissions
+
+- Only the author of a post or comment can update or delete it.
+- Anyone can view posts and comments.
+
+### Testing
+
+- All endpoints have been thoroughly tested using Postman.
+- Example requests and responses are provided in this documentation to demonstrate the API’s functionality.
+
 1. **Create a New Post**
 
 - **URL:** `http://127.0.0.1:8000/posts/posts/`
@@ -221,8 +235,8 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "title": "First Post",
-  "content": "What a journey to this point."
+    "title": "First Post",
+    "content": "What a journey to this point."
 }
 ```
 
@@ -230,12 +244,12 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "id": 1,
-  "author": "festus",
-  "title": "First Post",
-  "content": "What a journey to this point.",
-  "created_at": "2024-09-18T13:54:29.468935Z",
-  "updated_at": "2024-09-18T13:54:29.468935Z"
+    "id": 1,
+    "author": "Festus",
+    "title": "First Post",
+    "content": "What a journey to this point.",
+    "created_at": "2024-09-20T12:05:05.430148Z",
+    "updated_at": "2024-09-20T12:05:05.430148Z"
 }
 ```
 
@@ -250,17 +264,17 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "count": 1,
-  "next": null,
-  "previous": null,
-  "results": [
-      {
-        "id": 1,
-        "author": "festus",
-        "title": "First Post",
-        "content": "What a journey to this point.",
-        "created_at": "2024-09-18T13:54:29.468935Z",
-        "updated_at": "2024-09-18T13:54:29.468935Z"
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+          "id": 1,
+          "author": "Festus",
+          "title": "First Post",
+          "content": "What a journey to this point.",
+          "created_at": "2024-09-20T12:05:05.430148Z",
+          "updated_at": "2024-09-20T12:05:05.430148Z"
       }
   ]
 }
@@ -277,12 +291,12 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "id": 1,
-  "author": "festus",
-  "title": "First Post",
-  "content": "What a journey to this point.",
-  "created_at": "2024-09-18T13:54:29.468935Z",
-  "updated_at": "2024-09-18T13:54:29.468935Z"
+    "id": 1,
+    "author": "Festus",
+    "title": "First Post",
+    "content": "What a journey to this point.",
+    "created_at": "2024-09-20T12:05:05.430148Z",
+    "updated_at": "2024-09-20T12:05:05.430148Z"
 }
 ```
 
@@ -297,8 +311,8 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "title": "First Post",
-  "content": "What a journey to this point."
+    "title": "First Post Updated",
+    "content": "What a journey to this point."
 }
 ```
 
@@ -306,12 +320,12 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "id": 1,
-  "author": "festus",
-  "title": "First Post Updated",
-  "content": "What a journey to this point and beyond.",
-  "created_at": "2024-09-18T13:54:29.468935Z",
-  "updated_at": "2024-09-18T15:23:46.945840Z"
+    "id": 1,
+    "author": "Festus",
+    "title": "First Post Updated",
+    "content": "What a journey to this point and beyond.",
+    "created_at": "2024-09-20T12:05:05.430148Z",
+    "updated_at": "2024-09-20T12:14:45.893056Z"
 }
 ```
 
@@ -343,22 +357,21 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "post": 1,
-  "content": "Congrats on making it this far.",
+    "post": 1,
+    "content": "Congrats on making it this far.",
 }
-
 ```
 
 **Response:**
 
 ```json
 {
-  "id": 1,
-  "post": 1,
-  "author": "Collekta",
-  "content": "Congrats on making it this far.",
-  "created_at": "2024-09-18T13:57:20.482694Z",
-  "updated_at": "2024-09-18T13:57:20.482694Z"
+    "id": 2,
+    "post": 1,
+    "author": "Aboagye",
+    "content": "Congrats on making it this far.",
+    "created_at": "2024-09-20T13:36:48.304820Z",
+    "updated_at": "2024-09-20T13:36:48.304820Z"
 }
 ```
 
@@ -373,17 +386,25 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "count": 1,
+  "count": 2,
   "next": null,
   "previous": null,
   "results": [
       {
           "id": 1,
           "post": 1,
-          "author": "Collekta",
+          "author": "Aboagye",
           "content": "Congrats on making it this far.",
-          "created_at": "2024-09-18T13:57:20.482694Z",
-          "updated_at": "2024-09-18T13:57:20.482694Z"
+          "created_at": "2024-09-20T12:17:08.356204Z",
+          "updated_at": "2024-09-20T12:17:08.356204Z"
+      },
+      {
+          "id": 2,
+          "post": 1,
+          "author": "Aboagye",
+          "content": "Congrats on making it this far.",
+          "created_at": "2024-09-20T13:36:48.304820Z",
+          "updated_at": "2024-09-20T13:36:48.304820Z"
       }
   ]
 }
@@ -400,12 +421,12 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "id": 1,
-  "post": 1,
-  "author": "Collekta",
-  "content": "Congrats on making it this far.",
-  "created_at": "2024-09-18T13:57:20.482694Z",
-  "updated_at": "2024-09-18T13:57:20.482694Z"
+    "id": 1,
+    "post": 1,
+    "author": "Aboagye",
+    "content": "Congrats on making it this far.",
+    "created_at": "2024-09-20T12:17:08.356204Z",
+    "updated_at": "2024-09-20T12:17:08.356204Z"
 }
 ```
 
@@ -420,12 +441,8 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-    "id": 1,
     "post": 1,
-    "author": "Collekta",
-    "content": "What a journey to this point and beyond. Slow but sure progress.",
-    "created_at": "2024-09-18T13:57:20.482694Z",
-    "updated_at": "2024-09-18T15:51:53.368962Z"
+    "content": "Slow but sure progress."
 }
 ```
 
@@ -434,11 +451,11 @@ Users to manage posts and engage with them through comments in a social media pl
 ```json
 {
     "id": 1,
-    "author": "festus",
-    "title": "First Post Updated",
-    "content": "What a journey to this point and beyond.",
-    "created_at": "2024-09-18T13:54:29.468935Z",
-    "updated_at": "2024-09-18T15:23:46.945840Z"
+    "post": 1,
+    "author": "Aboagye",
+    "content": "Slow but sure progress.",
+    "created_at": "2024-09-20T12:17:08.356204Z",
+    "updated_at": "2024-09-20T13:45:17.194217Z"
 }
 ```
 
@@ -453,7 +470,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ```json
 {
-  "detail": "Comment deleted successfully."
+    "detail": "Comment deleted successfully."
 }
 ```
 
@@ -489,20 +506,6 @@ GET /posts/posts/?search=content
 ```bash
 GET /posts/posts/?page=2
 ```
-
-### Authentication
-
-- The API requires authentication for creating, updating, and deleting posts and comments. Use Token Authentication to access these features. Ensure the development server is running and visit `http://127.0.0.1:8000/admin/authtoken/tokenproxy/`. **Note** A superuser account must be created before visiting the URL.
-
-### Permissions
-
-- Only the author of a post or comment can update or delete it.
-- Anyone can view posts and comments.
-
-### Testing
-
-- All endpoints have been thoroughly tested using Postman.
-- Example requests and responses are provided in this documentation to demonstrate the API’s functionality.
 
 ### Conclusion
 
