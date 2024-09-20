@@ -9,6 +9,10 @@ from django.contrib.auth import authenticate
 from .serializers import RegisterSerializer, CustomUserSerializer, LoginSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 # Registration View to Return a Token
 class RegisterView(APIView):
@@ -63,3 +67,31 @@ class ProfileView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Follow Management Views
+# Follow View
+@api_view(['POST'])
+def follow_user(request, user_id):
+    try:
+        user_to_follow = User.objects.get(id=user_id)
+        if user_to_follow == request.user:
+            return Response({"error": "You cannot follow yourself"}, 
+                            status=status.HTTP_400_BAD_REQUEST)
+        request.user.following.add(user_to_follow)
+        return Response({"message": "User followed successfully"}, 
+                        status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, 
+                        status=status.HTTP_404_NOT_FOUND)
+
+# Unfollow View
+@api_view(['POST'])
+def unfollow_user(request, user_id):
+    try:
+        user_to_unfollow = User.objects.get(id=user_id)
+        request.user.following.remove(user_to_unfollow)
+        return Response({"message": "User unfollowed successfully"}, 
+                        status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, 
+                        status=status.HTTP_404_NOT_FOUND)
