@@ -9,7 +9,7 @@ from .serializers import RegisterSerializer, CustomUserSerializer, LoginSerializ
 from rest_framework.permissions import AllowAny
 from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
-
+from rest_framework import permissions
 
 # Registration View to Return a Token
 class RegisterView(APIView):
@@ -68,7 +68,7 @@ class ProfileView(APIView):
 
 # Follow a user
 class FollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
@@ -87,7 +87,7 @@ class FollowUserView(generics.GenericAPIView):
 
 # Unfollow a user
 class UnfollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
 
     def post(self, request, user_id):
