@@ -3,6 +3,7 @@
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer, LikeSerializer
 from notifications.models import Notification
@@ -30,15 +31,13 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
     @action(detail=True, methods=['POST'])
-    def like_post(self, request, pk=None):
-        post = self.get_object()
-        user = request.user
-        _, created = Like.objects.get_or_create(user=user, post=post)
+    def like(self, request, pk=None):
+        post = get_object_or_404(Post, pk=pk)
+        _, created = Like.objects.get_or_create(user=request.user, post=post)
         if created:
-            # Post author notification creation
             Notification.objects.create(
                 recipient=post.author,
-                actor=user,
+                actor=request.user,
                 verb='liked your post',
                 target=post
             )
@@ -46,10 +45,9 @@ class PostViewSet(viewsets.ModelViewSet):
         return Response({'status': 'post already liked'}, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['POST'])
-    def unlike_post(self, request, pk=None):
-        post = self.get_object()
-        user = request.user
-        like = Like.objects.filter(user=user, post=post).first()
+    def unlike(self, request, pk=None):
+        post = get_object_or_404(Post, pk=pk)
+        like = Like.objects.filter(user=request.user, post=post).first()
         if like:
             like.delete()
             return Response({'status': 'post unliked'}, status=status.HTTP_200_OK)
