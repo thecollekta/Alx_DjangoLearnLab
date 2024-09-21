@@ -32,7 +32,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['POST'])
     def like(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         _, created = Like.objects.get_or_create(user=request.user, post=post)
         if created:
             Notification.objects.create(
@@ -46,7 +46,7 @@ class PostViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['POST'])
     def unlike(self, request, pk=None):
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
         like = Like.objects.filter(user=request.user, post=post).first()
         if like:
             like.delete()
