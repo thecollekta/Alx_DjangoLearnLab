@@ -1,8 +1,11 @@
 # social_media_api/posts/views.py
 
-from rest_framework import viewsets, permissions, generics
-from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer
+from rest_framework import viewsets, permissions, generics, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from .models import Post, Comment, Like
+from .serializers import PostSerializer, CommentSerializer, LikeSerializer
+from notifications.models import Notification
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from .models import Post
@@ -25,6 +28,32 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    @action(detail=True, methods=['POST'])
+    def like_post(self, request, pk=None):
+        post = self.get_object()
+        user = request.user
+        _, created = Like.objects.get_or_create(user=user, post=post)
+        if created:
+            # Post author notification creation
+            Notification.objects.create(
+                recipient=post.author,
+                actor=user,
+                verb='liked your post',
+                target=post
+            )
+            return Response({'status': 'post liked'}, status=status.HTTP_201_CREATED)
+        return Response({'status': 'post already liked'}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['POST'])
+    def unlike_post(self, request, pk=None):
+        post = self.get_object()
+        user = request.user
+        like = Like.objects.filter(user=user, post=post).first()
+        if like:
+            like.delete()
+            return Response({'status': 'post unliked'}, status=status.HTTP_200_OK)
+        return Response({'status': 'post not liked'}, status=status.HTTP_400_BAD_REQUEST)
 
 # Comment View CRUD Operations
 class CommentViewSet(viewsets.ModelViewSet):
