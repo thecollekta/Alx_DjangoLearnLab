@@ -8,11 +8,17 @@ from rest_framework import filters
 from .models import Post
 from rest_framework.permissions import IsAuthenticated
 
+class IsAuthorOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.author == request.user
+    
 # Post View CRUD Operations
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['title']
     search_fields = ['title', 'content']
@@ -24,19 +30,19 @@ class PostViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
 # Feed View
 class FeedView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
-        # Fetch all the users the current user is following
+        # Fetch all users the current user is following
         following_users = user.following.all()
         # Return posts authored by followed users, ordered by creation date (newest first)
         return Post.objects.filter(author__in=following_users).order_by('-created_at')

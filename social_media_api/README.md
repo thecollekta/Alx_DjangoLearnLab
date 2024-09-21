@@ -10,6 +10,7 @@ This project is a simple social media API built using Django and Django REST Fra
 4. [Authenticating a User](#authenticating-a-user)
 5. [Testing the API](#testing-the-api)
 6. [Implementing Posts and Comments Functionality](#implementing-posts-and-comments-functionality)
+7. [Implementing User Follows and Feed Functionality](#implementing-user-follows-and-feed-functionality)
 
 ## Project Setup
 
@@ -208,7 +209,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 ## Endpoints
 
-### Posts
+### Posts API
 
 ### Authentication
 
@@ -226,7 +227,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 1. **Create a New Post**
 
-- **URL:** `http://127.0.0.1:8000/posts/posts/`
+- **URL:** `http://127.0.0.1:8000/api/posts/`
 - **Method**: `POST`
 - **Authentication Required:** Yes
 - **Description:** Allows authenticated users to create a new post.
@@ -255,7 +256,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 2. **Retrieve a List of Post**
 
-- **URL:** `http://127.0.0.1:8000/posts/posts/`
+- **URL:** `http://127.0.0.1:8000/api/posts/`
 - **Method**: `GET`
 - **Authentication Required:** No
 - **Description:** Retrieve a list of all posts with pagination.
@@ -282,7 +283,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 3. **Retrieve a Single Post**
 
-- **URL:** `http://127.0.0.1:8000/posts/posts/1/`
+- **URL:** `http://127.0.0.1:8000/api/posts/1/`
 - **Method**: `GET`
 - **Authentication Required:** No
 - **Description:** Retrieve a specific post by its ID..
@@ -302,7 +303,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 4. **Update a Post**
 
-- **URL:** `http://127.0.0.1:8000/posts/posts/1/`
+- **URL:** `http://127.0.0.1:8000/api/posts/1/`
 - **Method**: `PUT`
 - **Authentication Required:** Yes
 - **Description:** Allows the post's author to update the post.
@@ -331,7 +332,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 5. **Delete a Post**
 
-- **URL:** `http://127.0.0.1:8000/posts/posts/1/`
+- **URL:** `http://127.0.0.1:8000/api/posts/1/`
 - **Method**: `DELETE`
 - **Authentication Required:** Yes
 - **Description:** Allows the post's author to delete the post.
@@ -344,11 +345,11 @@ Users to manage posts and engage with them through comments in a social media pl
 }
 ```
 
-### Comments
+### Comments API
 
 1. **Create a New Comment**
 
-- **URL:** `http://127.0.0.1:8000/posts/comments/`
+- **URL:** `http://127.0.0.1:8000/api/comments/`
 - **Method**: `POST`
 - **Authentication Required:** Yes
 - **Description:** Allows authenticated users to add a comment to a post.
@@ -377,7 +378,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 2. **Retrieve a List of Comments**
 
-- **URL:** `http://127.0.0.1:8000/posts/comments/`
+- **URL:** `http://127.0.0.1:8000/api/comments/`
 - **Method**: `GET`
 - **Authentication Required:** No
 - **Description:** Retrieve a list of all comments with pagination.
@@ -412,7 +413,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 3. **Retrieve a Single Comment**
 
-- **URL:** `http://127.0.0.1:8000/posts/comments/1/`
+- **URL:** `http://127.0.0.1:8000/api/comments/1/`
 - **Method**: `GET`
 - **Authentication Required:** No
 - **Description:** Retrieve a specific post by its ID..
@@ -432,7 +433,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 4. **Update a Comment**
 
-- **URL:** `http://127.0.0.1:8000/posts/comments/1/`
+- **URL:** `http://127.0.0.1:8000/api/comments/1/`
 - **Method**: `PUT`
 - **Authentication Required:** Yes
 - **Description:** Allows the comment's author to update the comment.
@@ -461,7 +462,7 @@ Users to manage posts and engage with them through comments in a social media pl
 
 5. **Delete a Comment**
 
-- **URL:** `http://127.0.0.1:8000/posts/posts/1/`
+- **URL:** `http://127.0.0.1:8000/api/posts/1/`
 - **Method**: `DELETE`
 - **Authentication Required:** Yes
 - **Description:** Allows the comment's author to delete the comment.
@@ -483,8 +484,8 @@ Users to manage posts and engage with them through comments in a social media pl
 **Example Request:**
 
 ```perl
-GET /posts/posts/?title=First%20Post #If deleted, use the one below.
-GET /posts/posts/?title=First%20Post%20Updated
+GET /api/posts/?title=First%20Post #If deleted, use the one below.
+GET /api/posts/?title=First%20Post%20Updated
 ```
 
 ### Searching Posts
@@ -494,7 +495,7 @@ GET /posts/posts/?title=First%20Post%20Updated
 **Example Request:**
 
 ```sql
-GET /posts/posts/?search=content
+GET /api/posts/?search=content
 ```
 
 ### Pagination
@@ -504,8 +505,67 @@ GET /posts/posts/?search=content
 **Example Request:**
 
 ```bash
-GET /posts/posts/?page=2
+GET /api/posts/?page=2
 ```
+
+## Implementing User Follows and Feed Functionality
+
+## User Follow API
+
+### Follow User
+
+- **URL:** `http://127.0.0.1:8000/api/accounts/follow/1/`
+- **Method**: `POST`
+- **Authentication Required:** Yes
+- **Description:** Allows authenticated users to see a confirmation message after following a user.
+
+**Response:**
+
+```json
+{
+    "message": "User followed successfully"
+}
+```
+
+### Unfollow User
+
+- **URL:** `http://127.0.0.1:8000/api/accounts/unfollow/1/`
+- **Method**: `POST`
+- **Authentication Required:** Yes
+- **Description:** Allows authenticated users to see a confirmation message after unfollowing a user.
+
+**Response:**
+
+```json
+{
+    "message": "User unfollowed successfully"
+}
+```
+
+## Feed API
+
+### Get User Feed
+
+GET /api/feed/
+Headers: Authorization: Token <your_token_here>
+
+- **URL:** `http://127.0.0.1:8000/api/accounts/unfollow/1/`
+- **Method**: `POST`
+- **Authentication Required:** Yes
+- **Description:** Returns posts from followed users, ordered by creation date (most recent first) and supports pagination.
+
+**Response:**
+
+```json
+{
+    "count": 0,
+    "next": null,
+    "previous": null,
+    "results": []
+}
+```
+
+**Note**: You are seeing an empty feed because none has been created.
 
 ### Conclusion
 
