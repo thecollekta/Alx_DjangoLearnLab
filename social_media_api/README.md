@@ -1,6 +1,16 @@
 # Social Media API Project
 
-This project is a simple social media API built using Django and Django REST Framework, with custom user authentication and token-based authentication for API requests.
+This project is a Django and Django REST Framework-based Social Media API with custom user authentication and token-based authentication for API requests that provides features like user authentication, following, posting, liking, and notifications. This API is designed to be deployed on Heroku with MySQL for production.
+
+**NOTE:** You can use a different DATABASE of your choice.
+
+## Features
+
+- User registration and authentication
+- Posting and commenting
+- Likes and Notifications
+- User following functionality
+
 
 ## Table of Contents
 
@@ -14,46 +24,69 @@ This project is a simple social media API built using Django and Django REST Fra
 
 ## Project Setup
 
+### Prerequisites
+
+1. **Python 3.x** installed on your machine.
+2. **pip** (Python package installer) and **virtualenv** to manage dependencies.
+3. **MySQL** installed and configured or a DATABASE of your choosing.
+
+### Steps
+
 Follow these steps to set up the project locally:
 
-### 1. Clone the Repository
+1. Clone the Repository
 
 ```bash
 git clone https://github.com/<your-username>/social_media_api.git
-cd <your-repository>
+cd social_media_api
 ```
 
-### 2. Create a Virtual Environment
+2. Create a virtual environment and activate it:
 
 Create a virtual environment to isolate the project dependencies.
 
 ```bash
-python -m venv .env
-source .env/bin/activate  # On MacOS 
+python -m venv .env # Creates the virtual environment
+source .env/bin/activate  # On Linux/MacOS 
 .env\Scripts\activate # On Windows
 ```
 
-### 3. Install Dependencies
+3. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Set Up the Database
+4. Set Up the Database
 
-Apply migrations to set up the database schema.
+- Create a .env file in the project root and add your local MySQL credentials:
+
+```bash
+DATABASE_NAME=your_db_name
+DATABASE_USER=your_db_user
+DATABASE_PASSWORD=your_db_password
+DATABASE_HOST=localhost or 127.0.0.1
+DATABASE_PORT=3306
+```
+
+5. Apply migrations to set up the database schema.
 
 ```bash
 python manage.py migrate
 ```
 
-### 5. Run the Development Server
+6. Create a superuser for accessing the Django Admin panel:
+
+```bash
+python manage.py createsuperuser
+```
+
+7. Run the Development Server
 
 Start the Django development server.
 
 ```bash
-python manage.py runserver
-Your local development server will be running at: `http://127.0.0.1:8000/`.
+python manage.py runserver # Your local development server will be running at: `http://127.0.0.1:8000/`.
 ```
 
 ## 2. User Model Overview
