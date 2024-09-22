@@ -17,10 +17,13 @@ class NotificationMarkReadView(generics.UpdateAPIView):
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def update(self, request, *args, **kwargs):
-        notification = self.get_object()
-        if notification.recipient == request.user:
+    def get(self, request, *args, **kwargs):
+        notification = Notification.objects.filter(id=kwargs['pk'], recipient=request.user).first()
+        if notification:
             notification.is_read = True
             notification.save()
             return Response({'status': 'notification marked as read'})
-        return Response({'status': 'unauthorized'}, status=status.HTTP_403_FORBIDDEN)
+        return Response({'status': 'notification not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)

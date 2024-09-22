@@ -549,7 +549,7 @@ GET /api/posts/?page=2
 GET /api/feed/
 Headers: Authorization: Token <your_token_here>
 
-- **URL:** `http://127.0.0.1:8000/api/accounts/unfollow/1/`
+- **URL:** `http://127.0.0.1:8000/api/feed`
 - **Method**: `POST`
 - **Authentication Required:** Yes
 - **Description:** Returns posts from followed users, ordered by creation date (most recent first) and supports pagination.
@@ -558,14 +558,118 @@ Headers: Authorization: Token <your_token_here>
 
 ```json
 {
-    "count": 0,
+{
+    "count": 1,
     "next": null,
     "previous": null,
-    "results": []
+    "results": [
+        {
+            "id": 1,
+            "author": "Festus",
+            "title": "First Post Updated",
+            "content": "What a journey to this point and beyond.",
+            "created_at": "2024-09-20T12:05:05.430148Z",
+            "updated_at": "2024-09-20T12:14:45.893056Z",
+            "comments": [
+                {
+                    "id": 1,
+                    "post": 1,
+                    "author": "Aboagye",
+                    "content": "Slow but sure progress.",
+                    "created_at": "2024-09-20T12:17:08.356204Z",
+                    "updated_at": "2024-09-20T13:45:17.194217Z"
+                },
+                {
+                    "id": 2,
+                    "post": 1,
+                    "author": "Aboagye",
+                    "content": "Congrats on making it this far.",
+                    "created_at": "2024-09-20T13:36:48.304820Z",
+                    "updated_at": "2024-09-20T13:36:48.304820Z"
+                }
+            ],
+            "likes_count": 0
+        }
+    ]
+}
 }
 ```
 
-**Note**: You are seeing an empty feed because none has been created.
+## Likes API
+
+### Like a Post
+
+- **URL:** `http://127.0.0.1:8000/api/posts/1/like/`
+- **Method**: `POST`
+- **Authentication Required:** Yes
+- **Description:** Returns liked post status.
+
+**Response:**
+
+```json
+{
+    "status": "post liked"
+}
+```
+
+### Unlike a Post
+
+- **URL:** `http://127.0.0.1:8000/api/posts/1/unlike/`
+- **Method**: `POST`
+- **Authentication Required:** Yes
+- **Description:** Returns unliked post status.
+
+**Response:**
+
+```json
+{
+    "status": "post unliked"
+}
+```
+
+## Notifications API
+
+### Get User Notifications
+
+- **URL:** `http://127.0.0.1:8000/api/notifications/`
+- **Method**: `GET`
+- **Authentication Required:** Yes
+- **Description:** Returns a list of notifications for the authenticated user and supports pagination.
+
+**Response:**
+
+```json
+{
+    "count": 1,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "id": 1,
+            "actor": "Festus",
+            "verb": "liked your post",
+            "target": "First Post Updated",
+            "timestamp": "2024-09-22T09:34:59.097560Z",
+            "is_read": false
+        }
+    ]
+}
+```
+
+### Mark Notification as Read
+
+- **URL:** `http://127.0.0.1:8000/api/notifications/1/mark-read/`
+- **Method**: `POST`
+- **Authentication Required:** Yes
+- **Description:** Marks the specified notification as read returns a 404 error if the notification doesn't exist or doesn't belong to the authenticated user.
+
+**Response:**
+
+```json
+{
+    "status": "notification marked as read"
+}
+```
 
 ### Conclusion
 
