@@ -95,8 +95,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'smapidb',
         'USER': 'root',
-        'PASSWORD': '19470706@BOAgye233.',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'xxxxxxxxxx',
+        'HOST': '127.0.0.1',    
         'PORT': '3306',
     }
 }
@@ -160,7 +160,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5,
+    'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
