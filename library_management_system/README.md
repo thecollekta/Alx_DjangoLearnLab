@@ -4,8 +4,6 @@
 
 The Library Management System API is a robust backend solution built using Django and Django REST Framework (DRF). This API facilitates the management of library resources, allowing users to interact with the system by borrowing, returning, and viewing books.
 
-// [MermaidChart: acaf5bc7-ed21-4980-8d7c-cea9bac59a33]
-
 ## Table of Contents
 
 - [Installation](#installation)
@@ -281,16 +279,10 @@ Method: Automatically triggered when a user returns a book, making it available.
 You can use query parameters to filter books by availability, author, title, or ISBN.
 
 Example URL for filtering by author:
-
-- **Method**: `GET`
-- **Endpoint**: `/books/?author=Festus Aboagye/`
-- **Authorization**: `Bearer <access_token>`
+GET /books/?author=Festus Aboagye
 
 Example URL for filtering by title:
-
-- **Method**: `GET`
-- **Endpoint**: `/books/?title=Book of Rhymes/`
-- **Authorization**: `Bearer <access_token>`
+GET /books/?title=Book of Rhymes
 
 ### 9. Pagination
 
